@@ -28,6 +28,49 @@ public class Traverse {
     v45.neighbors = new ArrayList<>(List.of(v23));
     v23.neighbors = new ArrayList<>(List.of());
     v67.neighbors = new ArrayList<>(List.of(v91));
+
+    //traverse(v3);
+    int result = sum(v45);
+    System.out.println(result);
   }
 
+  public static int sum(Vertex<Integer> current) {
+    Set<Vertex<Integer>> myVisited = new HashSet<>();
+
+    return sum(current, myVisited);
+  }
+
+  public static int sum(Vertex<Integer> current, Set<Vertex<Integer>> visited) {
+    if (current == null || visited.contains(current)) return 0;
+
+    visited.add(current);
+
+    int total = 0;
+    total += current.data;
+
+    for (Vertex<Integer> neighbor : current.neighbors) {
+      int neighborSum = sum(neighbor, visited); // dont forget to do something with the returned result of our recursive call
+      total += neighborSum;
+    }
+
+    return total;
+  }
+
+  public static <T> void traverse(Vertex<T> current) {
+    Set<Vertex<T>> myVisited = new HashSet<>();
+    traverseHelper(current, myVisited);
+  }
+
+  // Core of our algorithm: THE most important to know for technical interviews
+  // - expects us to understand very thoroughly; as core as using for loop to go thru array
+  public static <T> void traverseHelper(Vertex<T> current, Set<Vertex<T>> visited) {
+    if (current == null || visited.contains(current)) return;
+
+    System.out.println(current.data);
+    visited.add(current);
+    
+    for(Vertex<T> neighbor : current.neighbors) {
+      traverseHelper(neighbor, visited);
+    }
+  }
 }
